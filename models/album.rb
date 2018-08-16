@@ -13,28 +13,27 @@ class Album
 
   def artists
     sql = "SELECT * FROM artists
-    WHERE id = $1"
+    WHERE
+    id = $1"
     values = [@artist_id]
-    return SqlRunner.run(sql, values).map { |artist_hash| Artist.new(artist_hash) }
+    SqlRunner.run(sql, values).map { |artist_hash| Artist.new(artist_hash) }
   end
 
   def save
     sql = "INSERT INTO albums
-    (
-    title, genre, artist_id
-    )
+    (title, genre, artist_id)
     VALUES
-    (
-    $1, $2, $3
-    ) RETURNING *"
+    ($1, $2, $3)
+    RETURNING *"
     values = [@title, @genre, @artist_id]
     @id = SqlRunner.run(sql, values)[0]['id'].to_i
   end
 
   def update #EXTENSTION
-    sql = "UPDATE albums SET title
-    = $1
-    WHERE id = $2"
+    sql = "UPDATE albums SET
+    title = $1
+    WHERE
+    id = $2"
     values = [@title, @id]
     SqlRunner.run(sql, values)
   end
@@ -48,14 +47,15 @@ class Album
 
   def Album.all
     sql = "SELECT * FROM albums"
-    return SqlRunner.run(sql).map { |album| Album.new(album) }
+    SqlRunner.run(sql).map { |album| Album.new(album) }
   end
 
   def Album.find(id) #EXTENSTION
     sql = "SELECT * FROM albums
-    WHERE id = $1"
+    WHERE
+    id = $1"
     values = [id]
-    return SqlRunner.run(sql, values).map { |album| Album.new(album) }
+    SqlRunner.run(sql, values).map { |album| Album.new(album) }
   end
 
   def Album.delete_all

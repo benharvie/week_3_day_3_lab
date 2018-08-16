@@ -18,40 +18,22 @@ class Artist
 
   def save
     sql = "INSERT INTO artists
-    (
-      name
-    )
+    (name)
     VALUES
-    (
-      $1
-    )
+    ($1)
     RETURNING *"
     values = [@name]
     @id = SqlRunner.run(sql, values)[0]['id'].to_i
   end
 
-  def update #EXTENSTION
+  def update
     sql = "UPDATE artists SET name
     = $1
-    WHERE id = $2"
+    WHERE
+    id = $2"
     values = [@name, @id]
     SqlRunner.run(sql, values)
   end
-  
-  #
-  # def update #EXTENSTION - DIDN'T WORK???
-  #   sql = "UPDATE artists
-  #   SET
-  #   (
-  #   name
-  #   ) =
-  #   (
-  #   $1
-  #   )
-  #   WHERE id = $2"
-  #   values = [@name, @id]
-  #   SqlRunner.run(sql, values)
-  # end
 
   def delete
     sql = "DELETE FROM artists
@@ -62,14 +44,14 @@ class Artist
 
   def Artist.all
     sql = "SELECT * FROM artists"
-    return SqlRunner.run(sql).map { |artist| Artist.new(artist) }
+    SqlRunner.run(sql).map { |artist| Artist.new(artist) }
   end
 
   def Artist.find(id) #EXTENSTION
     sql = "SELECT * FROM artists
     WHERE id = $1"
     values = [id]
-    return SqlRunner.run(sql, values).map { |artist| Artist.new(artist) }
+    SqlRunner.run(sql, values).map { |artist| Artist.new(artist) }
   end
 
   def Artist.delete_all
