@@ -30,7 +30,16 @@ class Artist
     @id = SqlRunner.run(sql, values)[0]['id'].to_i
   end
 
-  # def update #EXTENSTION
+  def update #EXTENSTION
+    sql = "UPDATE artists SET name
+    = $1
+    WHERE id = $2"
+    values = [@name, @id]
+    SqlRunner.run(sql, values)
+  end
+  
+  #
+  # def update #EXTENSTION - DIDN'T WORK???
   #   sql = "UPDATE artists
   #   SET
   #   (

@@ -31,9 +31,13 @@ class Album
     @id = SqlRunner.run(sql, values)[0]['id'].to_i
   end
 
-  # def update #EXTENSTION
-  #
-  # end
+  def update #EXTENSTION
+    sql = "UPDATE albums SET title
+    = $1
+    WHERE id = $2"
+    values = [@title, @id]
+    SqlRunner.run(sql, values)
+  end
 
   def delete
     sql = "DELETE FROM albums
